@@ -1,0 +1,28 @@
+
+# def get_random_fact(category, lang):
+#     conn = sqlite3.connect(DB_NAME)
+#     c = conn.cursor()
+
+#     col_name = f"fact_{lang}"  # lang = 'uz', 'en', 'ru'
+#     query = f"SELECT {col_name} FROM facts WHERE category = ? ORDER BY RANDOM() LIMIT 1"
+    
+#     try:
+#         c.execute(query, (category,))
+#         result = c.fetchone()
+#     except sqlite3.OperationalError:
+#         result = None
+#     conn.close()
+
+#     return result[0] if result else "Bu kategoriyada fakt mavjud emas."
+
+
+
+
+def get_random_fact(category: str, lang: str) -> str | None:
+    lang_facts = facts.get(lang)
+    if not lang_facts:
+        return None
+    cat_facts = lang_facts.get(category)
+    if not cat_facts:
+        return None
+    return random.choice(cat_facts)
